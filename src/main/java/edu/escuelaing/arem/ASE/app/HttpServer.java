@@ -11,7 +11,7 @@ import java.util.Map;
 public class HttpServer {
     static Map<String, Method> data= new HashMap<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ServerSocket serverSocket = null;
 
         try {
@@ -48,9 +48,13 @@ public class HttpServer {
                         String p=info.split(" ")[0].replace("(", " ").replace(")", "");
                         String fun=p.split(" ")[0];
                         String param=p.split(" ")[1];
+                        Double paramDouble= Double.parseDouble(param);
+                        //Method method= Math.class.getMethod(fun);
+                       // System.out.println("method "+ method);
+                        //execute(method, paramDouble);
                         System.out.println("p   "+ p);
-                        System.out.println("prueba " +p.replace("(", " "));
-                        System.out.println("prueba 2" + p.replace(")", ""));
+                        System.out.println("fun " + fun);
+                        System.out.println("param" + param);
                         outputLine=responseComputar();
                     }
                 }
@@ -139,6 +143,7 @@ public class HttpServer {
         String response="";
         if(data.containsKey(method.getName())){
                 response="response: "+method.invoke(null, param);
+            System.out.println("invoke"+method.invoke(null, param));
         }else{
             response="no se encontro";
         }
